@@ -26,4 +26,5 @@ export async function RolePermissionSeed(dataSource: DataSource) {
             id: 2
         },
     });
+    console.log('✅ Role Permission seeded');
   }

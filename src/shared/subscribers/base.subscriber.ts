@@ -19,6 +19,10 @@ export class BaseSubscriber implements EntitySubscriberInterface {
     if ('createdBy' in event.entity && !event.entity.createdBy) {
       event.entity.createdBy = email;
     }
+
+    if ('isActive' in event.entity && !event.entity.isActive) {
+      event.entity.isActive = true;
+    }
   }
 
   beforeUpdate(event: UpdateEvent<any>): void {

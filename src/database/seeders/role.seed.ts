@@ -12,13 +12,15 @@ export async function RoleSeed(dataSource: DataSource) {
       name: 'administrator', 
       description: 'total control of the system',
       isActive: true, 
+      createdBy: process.env.USER_DEFAULT_SYSTEM!
     });
     await repo.save({
       id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
       name: 'enrollee', 
       description: 'user registered in the system',
       isActive: true, 
+      createdBy: process.env.USER_DEFAULT_SYSTEM!
     });
-    console.log('✅ Admin role seeded');
+    console.log('✅ Role seeded');
   }
 }

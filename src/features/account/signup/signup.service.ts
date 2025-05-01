@@ -4,10 +4,21 @@ import { AuthResponseDto } from '../../../shared/dto/auth-response.dto';
 import { JwtTokenService } from '../../../shared/services/jwt/jwt.service';
 import { v4 as uuidv4 } from 'uuid';
 import { SignUpMapper } from './signup.mapper';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../../../entities';
+import { Repository } from 'typeorm';
+import { Role } from 'src/entities/role.entity';
 
 @Injectable()
 export class SignUpService {
-  constructor(private readonly jwt: JwtTokenService) {}
+  constructor(
+    private readonly jwt: JwtTokenService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User> ,
+
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role> ,
+    ) {}
   
   async signUp(dto: SignUpRequestDto): Promise<AuthResponseDto> {
 
@@ -15,7 +26,13 @@ export class SignUpService {
       throw new Error('Email already exists');
     }
 
+
+
     const user = SignUpMapper(dto);
+    
+    //await this.userRepository.save(user);
+
+
 
     const payload = {
       email: user.email,

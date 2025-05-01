@@ -14,7 +14,8 @@ export async function PermissionSeed(dataSource: DataSource) {
         isActive: true,
         permissionType: {
             id: 1
-        }
+        },
+        createdBy: process.env.USER_DEFAULT_SYSTEM!
       });
       await repo.save({
         id: 2,
@@ -23,8 +24,9 @@ export async function PermissionSeed(dataSource: DataSource) {
         isActive: true,
         permissionType: {
             id: 1
-        }
+        },
+        createdBy: process.env.USER_DEFAULT_SYSTEM!
       });
-      console.log('✅ Admin Permission types seeded');
+      console.log('✅ Permission seeded');
     }
   }

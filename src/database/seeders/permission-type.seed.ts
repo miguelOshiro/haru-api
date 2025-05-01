@@ -12,7 +12,8 @@ export async function PermissionTypesSeed(dataSource: DataSource) {
       name: 'API', 
       description: 'Permission type api',
       isActive: true,
+      createdBy: process.env.USER_DEFAULT_SYSTEM!
     });
-    console.log('✅ Admin Permission types seeded');
+    console.log('✅ Permission types seeded');
   }
 }

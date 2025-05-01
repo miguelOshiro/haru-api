@@ -17,8 +17,9 @@ export async function UserSeed(dataSource: DataSource) {
       avatar: '',
       role: {
         id: '7c0eea5c-4ebe-4ac3-b938-a8e6983929bc'
-      }
+      },
+      createdBy: process.env.USER_DEFAULT_SYSTEM!
     });
-    console.log('✅ Admin user seeded');
+    console.log('✅ User seeded');
   }
 }
