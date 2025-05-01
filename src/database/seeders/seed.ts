@@ -1,7 +1,11 @@
 import { DataSource } from 'typeorm';
 import { User } from '../../entities/user.entity';
 import * as dotenv from 'dotenv';
-import { UserSeed } from './user-seed';
+import { UserSeed } from './user.seed';
+import { RoleSeed } from './role.seed';
+import { PermissionTypesSeed } from './permission-type.seed';
+import { PermissionSeed } from './permission.seed';
+import { RolePermissionSeed } from './role-permission.seed';
 
 dotenv.config();
 
@@ -15,10 +19,13 @@ const AppDataSource = new DataSource({
   entities: [User],
   synchronize: false,
 });
-
 async function runSeeds() {
   await AppDataSource.initialize();
-  await UserSeed(AppDataSource);
+  await PermissionTypesSeed(AppDataSource);
+  // await PermissionSeed(AppDataSource);
+  // await RoleSeed(AppDataSource);
+  // await RolePermissionSeed(AppDataSource);
+  // await UserSeed(AppDataSource);
   await AppDataSource.destroy();
 }
 

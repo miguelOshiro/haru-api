@@ -9,8 +9,15 @@ export async function UserSeed(dataSource: DataSource) {
   if (!exists) {
     await repo.save({
       email: 'admin@haru.com',
-      password: await bcrypt.hash('admin123', 10),
-      userType: 'admin',
+      password: await bcrypt.hash('Admin2025$$', 10),
+      phoneNumber:'946678198',
+      isActive: true,
+      firstname: 'Jose',
+      lastname: 'Oshiro',
+      avatar: '',
+      role: {
+        id: '7c0eea5c-4ebe-4ac3-b938-a8e6983929bc'
+      }
     });
     console.log('✅ Admin user seeded');
   }
