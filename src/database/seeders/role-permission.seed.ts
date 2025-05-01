@@ -1,7 +1,5 @@
-import { RolePermission } from "src/entities/role-permission.entity";
+import { RolePermission } from "../../entities/role-permission.entity";
 import { DataSource } from "typeorm";
-
-
 
 export async function RolePermissionSeed(dataSource: DataSource) {
     const repo = dataSource.getRepository(RolePermission);

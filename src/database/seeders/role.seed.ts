@@ -1,7 +1,5 @@
-import { Role } from "src/entities/role.entity";
+import { Role } from '../../entities/role.entity';
 import { DataSource } from "typeorm";
-
-    
 
 export async function RoleSeed(dataSource: DataSource) {
   const repo = dataSource.getRepository(Role);
@@ -23,6 +21,4 @@ export async function RoleSeed(dataSource: DataSource) {
     });
     console.log('✅ Admin role seeded');
   }
-
-
 }

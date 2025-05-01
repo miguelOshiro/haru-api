@@ -1,7 +1,5 @@
-import { Permission } from "src/entities/permission.entity";
+import { Permission } from "../../entities/permission.entity";
 import { DataSource } from "typeorm";
-
-
 
 export async function PermissionSeed(dataSource: DataSource) {
     const repo = dataSource.getRepository(Permission);
@@ -29,6 +27,4 @@ export async function PermissionSeed(dataSource: DataSource) {
       });
       console.log('✅ Admin Permission types seeded');
     }
-  
-  
   }

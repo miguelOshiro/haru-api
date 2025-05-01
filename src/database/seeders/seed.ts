@@ -6,6 +6,10 @@ import { RoleSeed } from './role.seed';
 import { PermissionTypesSeed } from './permission-type.seed';
 import { PermissionSeed } from './permission.seed';
 import { RolePermissionSeed } from './role-permission.seed';
+import { Permission } from '../../entities/permission.entity';
+import { PermissionType } from '../../entities/permission-type.entity';
+import { Role } from '../../entities/role.entity';
+import { RolePermission } from '../../entities/role-permission.entity';
 
 dotenv.config();
 
@@ -16,16 +20,16 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [User],
-  synchronize: false,
+  entities: [PermissionType, Permission, Role, RolePermission, User],
+  synchronize: false
 });
 async function runSeeds() {
   await AppDataSource.initialize();
   await PermissionTypesSeed(AppDataSource);
-  // await PermissionSeed(AppDataSource);
-  // await RoleSeed(AppDataSource);
-  // await RolePermissionSeed(AppDataSource);
-  // await UserSeed(AppDataSource);
+  await PermissionSeed(AppDataSource);
+  await RoleSeed(AppDataSource);
+  await RolePermissionSeed(AppDataSource);
+  await UserSeed(AppDataSource);
   await AppDataSource.destroy();
 }
 
