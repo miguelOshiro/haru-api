@@ -1,15 +1,11 @@
 import { DataSource } from 'typeorm';
-import { User } from '../../entities/user.entity';
+import { User, Permission, PermissionType, Role, RolePermission } from '../../entities';
 import * as dotenv from 'dotenv';
 import { UserSeed } from './user.seed';
 import { RoleSeed } from './role.seed';
 import { PermissionTypesSeed } from './permission-type.seed';
 import { PermissionSeed } from './permission.seed';
 import { RolePermissionSeed } from './role-permission.seed';
-import { Permission } from '../../entities/permission.entity';
-import { PermissionType } from '../../entities/permission-type.entity';
-import { Role } from '../../entities/role.entity';
-import { RolePermission } from '../../entities/role-permission.entity';
 
 dotenv.config();
 
