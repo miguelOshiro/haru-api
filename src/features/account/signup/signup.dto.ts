@@ -7,23 +7,25 @@ import {
   MaxLength,
   Matches,
   IsOptional,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class SignUpRequestDto {
   @ApiProperty({ example: 'newuser@example.com' })
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @ApiProperty({ example: 'strongPassword123' })
   @IsString()
+  @IsNotEmpty()
   @MinLength(6)
   @MaxLength(32)
   password: string;
 
   @Expose()
   @IsString()
-  @MinLength(9)
-  @MaxLength(9)
+  @IsNotEmpty()
   phoneNumber: string;
 
   @Expose()
@@ -51,13 +53,7 @@ export class SignUpRequestDto {
   @Expose()
   @IsString()
   @IsOptional()
-  avatar: string;
-
-  @Expose()
-  @IsString()
-  @MinLength(36)
-  @MaxLength(36)
-  roleId: string;
+  avatar?: string;
 
 
 }

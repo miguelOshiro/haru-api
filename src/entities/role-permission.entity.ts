@@ -8,7 +8,7 @@ import { Permission } from "./permission.entity";
 @Index(['role', 'permission'], { unique: true }) 
 export class RolePermission {
   @PrimaryGeneratedColumn()
-  id: number; // Clave primaria simple para la tabla de unión
+  id: number; 
 
   // Relación con Role (Muchos RolesPermissions pertenecen a Un Role)
   @ManyToOne(() => Role, (role) => role.rolesPermissions, { 
@@ -18,11 +18,10 @@ export class RolePermission {
   @JoinColumn({ name: 'role_id' }) // Nombre explícito de la columna FK en la BD
   role: Role;
 
-  // Relación con Permission (Muchos RolesPermissions pertenecen a Un Permission)
   @ManyToOne(() => Permission, (permission) => permission.rolesPermissions, { 
       nullable: false, 
-      onDelete: 'CASCADE' // Si se borra un permiso, se borran sus asignaciones a roles
+      onDelete: 'CASCADE' 
   })
-  @JoinColumn({ name: 'permission_id' }) // Nombre explícito de la columna FK en la BD
+  @JoinColumn({ name: 'permission_id' }) 
   permission: Permission;
 }

@@ -1,11 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/entities';
 
 @Injectable()
 export class JwtTokenService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async generateAccessToken(payload: Record<string, any>): Promise<{ token: string; expiresAt: Date }> {
+  async generateAccessToken(user: User): Promise<{ token: string; expiresAt: Date }> {
+
+    const payload: Record<string, any> = {
+      email: user.email,
+      phone: user.phoneNumber,
+      sub: user.id
+    };
+
     const jwtSecret = process.env.JWT_SECRET;
     console.log(jwtSecret);
     if (!jwtSecret) throw new Error('JWT_SECRET is not defined');
@@ -19,7 +27,14 @@ export class JwtTokenService {
     return { token, expiresAt };
   }
 
-  async generateRefreshToken(payload: Record<string, any>): Promise<{ token: string; expiresAt: Date }> {
+  async generateRefreshToken(user: User): Promise<{ token: string; expiresAt: Date }> {
+
+    const payload: Record<string, any> = {
+      email: user.email,
+      phone: user.phoneNumber,
+      sub: user.id
+    };
+
     const refreshIn = this.parseDuration(process.env.JWT_REFRESH_EXPIRES_IN ?? '7d');
     const token = await this.jwtService.signAsync(payload, {
       expiresIn: refreshIn.raw,

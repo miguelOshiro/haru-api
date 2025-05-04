@@ -1,28 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { Logger } from '@nestjs/common';
 import { SignInRequestDto } from './signin.dto';
 import { JwtTokenService } from '../../../shared/services/jwt/jwt.service';
 import { AuthResponseDto } from '../../../shared/dto/auth-response.dto';
+import * as bcrypt from 'bcrypt';
+import { User } from 'src/entities';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class SignInService {
-  constructor(private readonly jwt: JwtTokenService) {}
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User> ,
+    private readonly jwt: JwtTokenService) {}
+
   async signIn(dto: SignInRequestDto): Promise<AuthResponseDto> {
-    console.log('Email:', dto.email);
 
-    const payload = {
-      email: dto.email,
-      sub: uuidv4()
-    };
-    
-    const accessToken =  await this.jwt.generateAccessToken(payload);
-    const refreshToken = await this.jwt.generateRefreshToken(payload);
+    const user = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
 
-    const logger = new Logger('SignInService');
-    logger.log(accessToken);
-    //logger.error('Error occurred example log error');
-    
+    if(!user) {
+      throw new UnauthorizedException(`Credentials are not valid`);
+    }
+
+    if(!bcrypt.compareSync(dto.password, user.password)) {
+      throw new UnauthorizedException(`Credentials are not valid`);
+    }
+
+    const accessToken =  await this.jwt.generateAccessToken(user);
+    const refreshToken = await this.jwt.generateRefreshToken(user);
+
     const response: AuthResponseDto = {
       tokenType: 'Bearer',
       accessToken: accessToken.token,

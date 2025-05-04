@@ -3,11 +3,14 @@ import { SignUpRequestDto } from './signup.dto';
 import { AuthResponseDto } from '../../../shared/dto/auth-response.dto';
 import { JwtTokenService } from '../../../shared/services/jwt/jwt.service';
 import { v4 as uuidv4 } from 'uuid';
-import { SignUpMapper } from './signup.mapper';
+import { emailMapper, signUpMapper } from './signup.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../entities';
 import { Repository } from 'typeorm';
 import { Role } from 'src/entities/role.entity';
+import { BrevoService } from 'src/shared/services/email/brevo.service';
+import { DestinationEmail, DestinationParams, EmailDto } from '../../../shared/dto/email.dto';
+import { StorageService } from 'src/shared/services/storage/storage.service';
 
 @Injectable()
 export class SignUpService {
@@ -18,29 +21,34 @@ export class SignUpService {
 
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role> ,
+    private readonly brevoService: BrevoService,
+    private readonly storageService: StorageService
     ) {}
   
   async signUp(dto: SignUpRequestDto): Promise<AuthResponseDto> {
 
-    if (dto.email === 'existing@example.com') {
-      throw new Error('Email already exists');
+    const exist = await this.userRepository.findOne({where: [
+      { email: dto.email },
+      { phoneNumber: dto.phoneNumber },
+    ]
+    });
+
+    if (exist) {
+      throw new Error('Success');
     }
 
-
-
-    const user = SignUpMapper(dto);
+    const entity = signUpMapper(dto);
     
-    //await this.userRepository.save(user);
+    const user = await this.userRepository.save(entity);
 
+    const htmlContent = await this.storageService.getFile('public', 'templates_welcome.html');
 
+    const email = emailMapper(user, 'Welcome', htmlContent);
+    
+    this.brevoService.sendTransactionalEmail(email);
 
-    const payload = {
-      email: user.email,
-      sub: uuidv4()
-    };
-
-    const accessToken =  await this.jwt.generateAccessToken(payload);
-    const refreshToken = await this.jwt.generateRefreshToken(payload);
+    const accessToken =  await this.jwt.generateAccessToken(user);
+    const refreshToken = await this.jwt.generateRefreshToken(user);
 
     const response: AuthResponseDto = {
       tokenType: 'Bearer',
