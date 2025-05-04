@@ -6,7 +6,6 @@ import { EmailDto } from '../../dto/email.dto';
 @Injectable()
 export class BrevoService {
 
-  //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  process.env.BREVO_API_KEY
   private readonly brevoApiUrl = 'https://api.brevo.com/v3/smtp/email';
   private readonly apiKey = process.env.BREVO_API_KEY;
 
