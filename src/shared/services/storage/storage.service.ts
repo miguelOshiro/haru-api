@@ -43,7 +43,7 @@ export class StorageService {
         const response = await axios.get(downloadUrl);
 
         const content =  response.data;
-        return content
+        return content;
       }
 
 

@@ -7,7 +7,6 @@ export class EmailDto {
     to: DestinationEmail[];
     htmlContent: string;
     params: DestinationParams;
-    
 }
 
 export class DestinationEmail {
@@ -20,6 +19,11 @@ export class DestinationParams {
 
     firstName: string;
     link: string;
+    dateBlock: Date | null;
+    url: string;
+    newEmail: string;
 }
+
+
 
 

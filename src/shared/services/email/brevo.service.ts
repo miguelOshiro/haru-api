@@ -2,14 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { EmailDto } from '../../dto/email.dto';
+import { StorageService } from '../storage/storage.service';
+
 
 @Injectable()
-export class BrevoService {
+export class EmailService {
 
   private readonly brevoApiUrl = 'https://api.brevo.com/v3/smtp/email';
   private readonly apiKey = process.env.BREVO_API_KEY;
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService,
+    private readonly storageService: StorageService,) {}
 
   async sendTransactionalEmail(emailDto: EmailDto): Promise<any> {
 

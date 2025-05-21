@@ -16,6 +16,9 @@ export class PermissionType extends BaseEntity {
     @Column({ type: 'varchar', length: 255 })
     description: string;
 
+    @Column({ type: 'boolean', default: true, name: 'is_active' })
+    isActive: boolean;
+
     @OneToMany( () => Permission, (permission) => permission.permissionType)
     permission: Permission[];
 

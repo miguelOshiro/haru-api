@@ -16,6 +16,20 @@ import { BaseSubscriber } from './shared/subscribers/base.subscriber';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './shared/controllers/health.controller';
 import { HttpModule } from '@nestjs/axios';
+import { UnlockAccountModule } from './features/account/unlock-account/unlock-account.module';
+import { ForgotPasswordModule } from './features/account/forgot-password/forgot-password.module';
+import { ResetPasswordModule } from './features/account/reset-password/reset-password.module';
+import { ChangePasswordModule } from './features/account/change-password/change-password.module';
+import { DeleteModule } from './features/account/delete/delete.module';
+import { ConfirmEmailModule } from './features/account/confirm-email/confirm-email.module';
+import { VerifyEmailModule } from './features/account/verify-email/verify-email.module';
+import { ChangeEmailModule } from './features/account/change-email/change-email.module';
+import { ConfirmChangeModule } from './features/account/confirm-change/confirm-change.module';
+import { SignoutModule } from './features/account/signout/signout.module';
+import { UpdateProfileModule } from './features/account/update-profile/update-profile.module';
+import { UpdateAvatarModule } from './features/account/update-avatar/update-avatar.module';
+import { TwoFaVerifyModule } from './features/account/2fa-verify/two-fa-verify.module';
+import { TwoFaModule } from './features/account/2fa/two-fa.module';
 
 @Module({
   imports: [
@@ -48,7 +62,21 @@ import { HttpModule } from '@nestjs/axios';
     JwtTokenModule,
     SignInModule,
     SignUpModule,
-    MeModule
+    MeModule,
+    UnlockAccountModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
+    ChangePasswordModule,
+    DeleteModule,
+    ConfirmEmailModule,
+    VerifyEmailModule,
+    ChangeEmailModule,
+    ConfirmChangeModule,
+    SignoutModule,
+    UpdateProfileModule,
+    UpdateAvatarModule,
+    TwoFaModule,
+    TwoFaVerifyModule
   ],
   controllers: [HealthController],
   providers: [JwtStrategy, BaseSubscriber],

@@ -19,4 +19,7 @@ export class BaseResponseDto<T> {
     required: false,
   })
   exception?: any;
+
+  // exception!: string;
+  // errors!: string[];
 }

@@ -10,9 +10,7 @@ export class MeService {
     if (!user) {
       throw new Error('User context not found');
     }
-    return {
-      email: user.email,
-      userId: user.sub,
-    };
+
+    return user;
   }
 }

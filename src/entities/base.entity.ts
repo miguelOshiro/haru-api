@@ -7,9 +7,6 @@ import {
 
 export abstract class BaseEntity {
 
-  @Column({ type: 'boolean', default: true, name: 'is_active' })
-  isActive: boolean;
-
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'created_by' })
   createdBy: string;
 

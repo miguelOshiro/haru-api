@@ -11,7 +11,7 @@ export async function UserSeed(dataSource: DataSource) {
       email: 'admin@haru.com',
       password: await bcrypt.hash('Admin2025$$', 10),
       phoneNumber:'946678198',
-      isActive: true,
+      status: 'active',
       firstname: 'Jose',
       lastname: 'Oshiro',
       avatar: '',

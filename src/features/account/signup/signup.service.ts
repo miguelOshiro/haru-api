@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { SignUpRequestDto } from './signup.dto';
 import { AuthResponseDto } from '../../../shared/dto/auth-response.dto';
 import { JwtTokenService } from '../../../shared/services/jwt/jwt.service';
-import { v4 as uuidv4 } from 'uuid';
+import * as bcrypt from 'bcrypt';
 import { emailMapper, signUpMapper } from './signup.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../entities';
 import { Repository } from 'typeorm';
 import { Role } from 'src/entities/role.entity';
-import { BrevoService } from 'src/shared/services/email/brevo.service';
+import { EmailService } from 'src/shared/services/email/brevo.service';
 import { DestinationEmail, DestinationParams, EmailDto } from '../../../shared/dto/email.dto';
 import { StorageService } from 'src/shared/services/storage/storage.service';
 
@@ -21,7 +21,7 @@ export class SignUpService {
 
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role> ,
-    private readonly brevoService: BrevoService,
+    private readonly emailService: EmailService,
     private readonly storageService: StorageService
     ) {}
   
@@ -34,18 +34,22 @@ export class SignUpService {
     });
 
     if (exist) {
-      throw new Error('Success');
+      throw new BadRequestException('Success');
     }
 
     const entity = signUpMapper(dto);
+
+    const hashPassword = dto.password ?? 'User2025$$';
+    entity.password = await bcrypt.hash(hashPassword, 10);
+    entity.createdBy = process.env.USER_DEFAULT_SYSTEM!;
+    
+    const htmlContent = await this.storageService.getFile('public', 'templates_welcome.html');
+    
+    const email = emailMapper(entity, 'Welcome', htmlContent);
+    
+    this.emailService.sendTransactionalEmail(email);
     
     const user = await this.userRepository.save(entity);
-
-    const htmlContent = await this.storageService.getFile('public', 'templates_welcome.html');
-
-    const email = emailMapper(user, 'Welcome', htmlContent);
-    
-    this.brevoService.sendTransactionalEmail(email);
 
     const accessToken =  await this.jwt.generateAccessToken(user);
     const refreshToken = await this.jwt.generateRefreshToken(user);

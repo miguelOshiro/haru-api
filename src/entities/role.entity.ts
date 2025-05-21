@@ -15,6 +15,8 @@ export class Role extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   description: string;
 
+  @Column({ type: 'boolean', default: true, name: 'is_active' })
+  isActive: boolean;
 
   @OneToMany(() => RolePermission, (rolesPermissions) => rolesPermissions.role)
   rolesPermissions: RolePermission[]; 

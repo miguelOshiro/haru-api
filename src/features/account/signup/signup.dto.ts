@@ -8,21 +8,25 @@ import {
   Matches,
   IsOptional,
   IsNotEmpty,
+  IsNumber,
+  IsDate,
+  IsBoolean,
 } from 'class-validator';
 
 export class SignUpRequestDto {
-  @ApiProperty({ example: 'newuser@example.com' })
+  @ApiProperty({ example: '0shiromiguel@gmail.com' })
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
-  @ApiProperty({ example: 'strongPassword123' })
+  @ApiProperty({ example: 'User2025$$$' })
   @IsString()
   @IsNotEmpty()
   @MinLength(6)
   @MaxLength(32)
   password: string;
 
+  @ApiProperty({ example: '987654321' })
   @Expose()
   @IsString()
   @IsNotEmpty()
@@ -30,7 +34,7 @@ export class SignUpRequestDto {
 
   @Expose()
   @ApiProperty({
-      name: 'firstName',
+      name: 'firstname',
       type: String,
       description: 'Nombre del usuario',
       required: true
@@ -41,7 +45,7 @@ export class SignUpRequestDto {
 
   @Expose()
   @ApiProperty({
-      name: 'lastName',
+      name: 'lastname',
       type: String,
       description: 'Apellido del usuario',
       required: true
@@ -49,11 +53,5 @@ export class SignUpRequestDto {
   @IsString()
   @MinLength(2)
   lastname: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  avatar?: string;
-
 
 }
