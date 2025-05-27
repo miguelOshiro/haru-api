@@ -54,6 +54,7 @@ import { TwoFaModule } from './features/account/2fa/two-fa.module';
         database: config.get<string>('database.name'),
         synchronize: false,
         autoLoadEntities: true,
+        ssl: { rejectUnauthorized: false },
       }),
     }),
     HttpModule,

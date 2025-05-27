@@ -26,5 +26,133 @@ export async function RolePermissionSeed(dataSource: DataSource) {
             id: 2
         },
     });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 1
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 2
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 3
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 4
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 5
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 6
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 7
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 8
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 9
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 10
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 11
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 12
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 13
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 14
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 15
+        },
+    });
+    await repo.save({
+        role: {
+            id: '333eea5c-4ebe-4ac3-b938-a8e698394444', 
+        },
+        permission: {
+            id: 16
+        },
+    });
     console.log('✅ Role Permission seeded');
   }

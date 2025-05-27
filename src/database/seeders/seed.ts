@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { User, Permission, PermissionType, Role, RolePermission } from '../../entities';
+import { User, Permission, PermissionType, Role, RolePermission, RefreshToken } from '../../entities';
 import * as dotenv from 'dotenv';
 import { UserSeed } from './user.seed';
 import { RoleSeed } from './role.seed';
@@ -16,8 +16,9 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [PermissionType, Permission, Role, RolePermission, User],
-  synchronize: false
+  entities: [PermissionType, Permission, Role, RolePermission, User, RefreshToken],
+  synchronize: false,
+  ssl: { rejectUnauthorized: false },
 });
 async function runSeeds() {
   await AppDataSource.initialize();

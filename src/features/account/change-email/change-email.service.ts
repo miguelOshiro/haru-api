@@ -7,7 +7,7 @@ import { JwtTokenService } from '../../../shared/services/jwt/jwt.service';
 import { EmailService } from '../../../shared/services/email/brevo.service';
 import { StorageService } from '../../../shared/services/storage/storage.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EmailDto } from 'src/shared/dto/email.dto';
+import { EmailDto } from '../../../shared/dto/email.dto';
 
 @Injectable()
 export class ChangeEmailService {
