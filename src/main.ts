@@ -24,6 +24,10 @@ if (process.env.SENTRY_DSN) {
   });
 }
 
+/**
+ * Entry point for the NestJS application.
+ * Sets up global configurations, logging, and starts the server.
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
@@ -47,6 +51,11 @@ bootstrap().catch((err) => {
   process.exit(1);
 });
 
+/**
+ * Registers global interceptors and filters for the application.
+ * @param app - The NestJS application instance
+ * @param logger - LoggerService used for logging
+ */
 function setupInterceptors(app, logger: LoggerService) {
   app.useLogger(logger);
   app.useGlobalInterceptors(
@@ -56,6 +65,10 @@ function setupInterceptors(app, logger: LoggerService) {
   app.useGlobalFilters(new GlobalHttpExceptionFilter());
 }
 
+/**
+ * Configures global validation pipe with whitelist and custom exception factory.
+ * @param app - The NestJS application instance
+ */
 function setupPipes(app) {
   app.useGlobalPipes(
     new ValidationPipe({
