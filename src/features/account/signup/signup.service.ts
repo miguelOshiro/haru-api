@@ -34,7 +34,7 @@ export class SignUpService {
     });
 
     if (exist) {
-      throw new BadRequestException('Success');
+      throw new BadRequestException('A user with this email or phone number already exists.');
     }
 
     const entity = signUpMapper(dto);

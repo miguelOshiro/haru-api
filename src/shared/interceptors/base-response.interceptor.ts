@@ -1,62 +1,64 @@
 import {
-  CallHandler,
-  ExecutionContext,
   Injectable,
   NestInterceptor,
+  CallHandler,
+  ExecutionContext,
   ArgumentsHost,
-  BadRequestException,
   Catch,
   ExceptionFilter,
-  ForbiddenException,
   HttpException,
-  NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BaseResponseDto } from '../dto/base-response.dto';
 
-// Add import for BaseErrorResponseDto for reference
-// import { BaseErrorResponseDto } from '../../../shared/dto/base-error-response.dto';
-
 @Injectable()
-export class BaseResponseInterceptor<T> implements NestInterceptor<T, BaseResponseDto<T>> {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<BaseResponseDto<T>> {
+export class GlobalResponseInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<BaseResponseDto<any>> {
     return next.handle().pipe(
-      map((data: T): BaseResponseDto<T> => ({
+      map((data) => ({
         isSuccess: true,
-        message: 'Success',
+        message: 'Operation completed successfully.',
         data,
+        exception: '',
+        errors: [],
       })),
     );
   }
 }
 
-@Catch(BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException)
+@Catch()
 export class GlobalHttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<any>();
-    const status = exception.getStatus();
+    const status = exception instanceof HttpException ? exception.getStatus() : 500;
+    const exceptionName = exception instanceof Error ? exception.name : 'UnknownException';
+    const exceptionMessage = exception instanceof Error ? exception.message : 'Unexpected error';
+    const exceptionResponse =
+      exception instanceof HttpException ? exception.getResponse() : { message: exceptionMessage };
 
-    const exceptionResponse = exception.getResponse();
-    let message = Array.isArray((exceptionResponse as any)?.message)
-      ? (exceptionResponse as any).message.join(', ')
-      : typeof exceptionResponse === 'string'
-        ? exceptionResponse
-        : (exceptionResponse as any)?.message ?? exception.message;
+    let errors: string[] = [];
 
-    if (exception instanceof ForbiddenException || exception instanceof NotFoundException) {
-      const res = exception.getResponse() as any;
-      message = Array.isArray(res.message) ? res.message.join(', ') : res.message;
+    if (Array.isArray((exceptionResponse as any)?.message)) {
+      errors = (exceptionResponse as any).message;
+    } else if (typeof (exceptionResponse as any)?.message === 'string') {
+      errors = [(exceptionResponse as any).message];
+    } else if (typeof exceptionMessage === 'string') {
+      errors = [exceptionMessage];
+    } else {
+      errors = ['An unexpected error occurred.'];
     }
+
+    const message = exception instanceof HttpException && status === 400
+      ? 'Validation Errors'
+      : errors.join(', ');
 
     response.status(status).json({
       isSuccess: false,
       message,
-      exception: {
-        name: exception.name,
-        message,
-      },
+      exception: exceptionName,
+      errors: exception instanceof HttpException ? errors : [],
     });
   }
 }

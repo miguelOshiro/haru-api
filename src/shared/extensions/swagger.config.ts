@@ -1,4 +1,6 @@
 import { DocumentBuilder } from '@nestjs/swagger';
+import { INestApplication } from '@nestjs/common';
+import { SwaggerModule } from '@nestjs/swagger';
 
 export const swaggerConfig = new DocumentBuilder()
   .setTitle('Haru Platform API')
@@ -11,3 +13,8 @@ export const swaggerConfig = new DocumentBuilder()
     in: 'header',
   })
   .build();
+
+export function setupSwagger(app: INestApplication) {
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('swagger', app, document);
+}

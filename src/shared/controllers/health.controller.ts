@@ -42,16 +42,18 @@ export class HealthController {
         isSuccess: true,
         message: 'OK',
         data: result,
+        exception: '',
+        errors: [],
       };
     } catch (error: any) {
+      const errors = Array.isArray(error?.message) ? error.message : [error?.message ?? 'Unknown error'];
+      const message = errors.join(', ');
       return {
         isSuccess: false,
-        message: error?.message ?? 'Health check failed',
-        exception: {
-          name: error?.name,
-          message: error?.message,
-          stack: error?.stack,
-        },
+        message,
+        data: undefined,
+        exception: error?.name ?? 'UnknownException',
+        errors,
       };
     }
   }
