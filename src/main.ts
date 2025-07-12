@@ -40,7 +40,7 @@ async function bootstrap() {
   setupInterceptors(app, app.get<LoggerService>(WINSTON_MODULE_NEST_PROVIDER));
   setupPipes(app);
 
-  const port = parseInt(process.env.PORT ?? '4000', 10);
+  const port = parseInt(process.env.PORT ?? '3000', 10);
   await app.listen(port, () => {
     console.log(`Application is running on: http://localhost:${port}`);
   });
