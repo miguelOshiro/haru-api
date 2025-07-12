@@ -14,4 +14,9 @@ export default new DataSource({
   migrations: ['src/database/migrations/*.ts'],
   synchronize: false,
   ssl: { rejectUnauthorized: false },
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 });

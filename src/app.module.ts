@@ -55,6 +55,11 @@ import { TwoFaModule } from './features/account/2fa/two-fa.module';
         synchronize: false,
         autoLoadEntities: true,
         ssl: { rejectUnauthorized: false },
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
     }),
     HttpModule,
